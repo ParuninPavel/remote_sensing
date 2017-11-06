@@ -1,0 +1,6 @@
+finish batch generators - create fly generator and then create library 
+finish library mask generator
+create library data processing - create random generator and increase functionality of the whole lib
++ !add Jackard index metric and loss
+!test other networks - ResNet, PSPNet, ...
+try different datasets

@@ -1,0 +1,43 @@
+INSTALL anaconda
+INSTALL CUDA 8.0:
+FOR UBUNTU 16.04:
+	curl -O http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/cuda-repo-ubuntu1604_8.0.61-1_amd64.deb
+  	dpkg -i ./cuda-repo-ubuntu1604_8.0.61-1_amd64.deb
+  	apt-get update
+  	apt-get install cuda-8-0 -y
+FOR UBUNTU 14.04:
+	curl -O http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1404/x86_64/cuda-repo-ubuntu1404_8.0.61-1_amd64.deb
+	dpkg -i ./cuda-repo-ubuntu1404_8.0.61-1_amd64.deb
+	apt-get update
+	apt-get install cuda-8-0 -y
+	apt-get install linux-headers-$(uname -r) -y	
+
+
+INSTALL CuDNN 6.0:
+	DOWNLOAD cudnn
+ 	tar -xzvf cudnn-6.0-linux-x64-v7.tgz
+	sudo cp cuda/include/cudnn.h /usr/local/cuda/include
+	sudo cp cuda/lib64/libcudnn* /usr/local/cuda/lib64 
+	sudo chmod a+r /usr/local/cuda/include/cudnn.h /usr/local/cuda/lib64/libcudnn*
+
+
+INSTALL Python 3.5.4
+
+FOR CONDA:
+	conda create -n tensorflow python=3.5
+	source activate tensorflow
+	conda install nb_conda
+
+sudo apt-get install libcupti-dev	
+pip install --ignore-installed --upgrade https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.3.0-cp35-cp35m-linux_x86_64.whl
+pip install keras
+pip install pandas
+pip install tifffile
+pip install matplotlib
+pip install opencv-python
+pip install shapely
+pip install sklearn
+
+FOR SAVE MODELS IN KERAS:
+	sudo apt-get install libhdf5
+	pip install h5py
