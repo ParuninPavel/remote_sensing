@@ -1,3 +1,18 @@
+import matplotlib.pyplot as plt
+import numpy as np
+import cv2
+import pandas as pd
+from shapely.wkt import loads as wkt_loads
+import tifffile as tiff
+import os
+import random
+from shapely.geometry import MultiPolygon, Polygon
+import shapely.wkt
+import shapely.affinity
+from collections import defaultdict
+import shutil
+from tqdm import tqdm
+
 class MapObject (object):
     __colors = [[255, 0, 0],
                 [255, 143, 143],
@@ -64,7 +79,7 @@ class MapObject (object):
         if aug:
             size = (patch_size[0]+patch_size[1],patch_size[0]+patch_size[1])
         assert h>size[0] and w>size[1], 'Patch size should be less than 0,5*image_size if aug=True or image_size if aug=False'
-        print(h>size[0] and w>size[1])
+        #print(h>size[0] and w>size[1])
         # Deriving of random coordinates
         coords = []
         for i in range (quantity):
@@ -193,7 +208,7 @@ class MapObject (object):
         img_patches = []
         mask_patches = []
         h, w, _ = img.shape
-        print(img.shape)
+        #print(img.shape)
         for coord in coords:
             h_1 = coord[0] 
             h_2 = h_1+size[0]
