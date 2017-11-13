@@ -7,7 +7,7 @@ from shapely.geometry import MultiPolygon, Polygon
 import shapely.wkt
 import shapely.affinity
 from tqdm import tqdm
-from MapObject import *
+from .MapObject import MapObject
 
 class DatasetDstl(object):
     def __init__(self, imgs_1=None, imgs_2=None, imgs_3=None, pandas_grid_sizes=None, pandas_polygons=None):
@@ -16,6 +16,11 @@ class DatasetDstl(object):
         self.imgs_3 = imgs_3
         self.pandas_grid_sizes = pandas_grid_sizes
         self.pandas_polygons = pandas_polygons
+        
+    def initiallize_by_folder(self, dataset_folder):
+        self.imgs_1 = dataset_folder+'three_band/'
+        self.pandas_polygons = pd.read_csv(dataset_folder + 'train_wkt_v4.csv')
+        self.pandas_grid_sizes = pd.read_csv(dataset_folder + 'grid_sizes.csv', names=['ImageId', 'Xmax', 'Ymin'], skiprows=1)
         
     def generate_DS_for_fly_generator(self, dataset_folder, destination_folder, test_id=None):
         self.imgs_1 = dataset_folder+'three_band/'

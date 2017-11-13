@@ -114,10 +114,10 @@ class MapObject (object):
         centroids = []
         img_patches = []
         mask_patches = []
-        
+       
         # Get centroid coordinates of objects on mask
         if self.mask[:,:,cls].any() != 0:
-            _, contours, hierarchy = cv2.findContours( self.mask[:,:,cls], cv2.RETR_LIST, cv2.CHAIN_APPROX_NONE)
+            _, contours, hierarchy = cv2.findContours( self.mask[:,:,cls]*255, cv2.RETR_LIST, cv2.CHAIN_APPROX_NONE)
             moments  = [cv2.moments(cnt) for cnt in contours]
             if (len(moments)!= 0):
                 centroids = [( int(round(m['m01']/m['m00'])),int(round(m['m10']/m['m00'])) ) for m in moments if m['m00']!=0]
@@ -137,9 +137,6 @@ class MapObject (object):
             for i in range(class_quantity-len(centroids)):
                 cnt = random.choice(centroids)
                 centroids.append(cnt)
-        print(len(centroids))        
-        print(class_quantity)
-        print(random_quantity)
         
         # Scaling image with scaling factor (Useful for different classes)
         h,w,_ = self.img.shape
@@ -168,7 +165,6 @@ class MapObject (object):
             coord_w = random.randint(0, w-size[1])
             coords.append((coord_h, coord_w))
         
-        print(coords, centroids[0:10])
         random.shuffle(coords)
         raw_img_patches, raw_mask_patches = self._crop(coords, size, img, mask, aug, random_shear)
 
@@ -176,12 +172,12 @@ class MapObject (object):
         for raw_img_patch in raw_img_patches:
             h = (raw_img_patch.shape[0] - patch_size[0])//2
             w = (raw_img_patch.shape[1] - patch_size[1])//2
-            img_patches.append(raw_img_patch[h:h+patch_size[0], w:w+patch_size[1]])
+            img_patches.append(raw_img_patch[h:h+patch_size[0], w:w+patch_size[1]].copy())
             
         for raw_mask_patch in raw_mask_patches:
             h = (raw_mask_patch.shape[0] - patch_size[0])//2
             w = (raw_mask_patch.shape[1] - patch_size[1])//2
-            mask_patches.append(raw_mask_patch[h:h+patch_size[0], w:w+patch_size[1]]) 
+            mask_patches.append(raw_mask_patch[h:h+patch_size[0], w:w+patch_size[1]].copy()) 
 
         return img_patches, mask_patches
     
