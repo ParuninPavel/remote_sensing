@@ -1,4 +1,6 @@
-INSTALL anaconda
+INSTALL anaconda:
+    wget http://repo.continuum.io/archive/Anaconda3-4.0.0-Linux-x86_64.sh
+    bash Anaconda3-4.0.0-Linux-x86_64.sh
 INSTALL CUDA 8.0:
 FOR UBUNTU 16.04:
 	curl -O http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/cuda-repo-ubuntu1604_8.0.61-1_amd64.deb
@@ -37,6 +39,18 @@ pip install matplotlib
 pip install opencv-python
 pip install shapely
 pip install sklearn
+pip install pillow
+
+RASTERIO:
+    sudo add-apt-repository ppa:ubuntugis/ppa
+    sudo apt-get update
+    sudo apt-get install python-numpy gdal-bin libgdal-dev
+    pip install rasterio
+
+RASTERIO IN CONDA:
+    conda config --add channels conda-forge
+    conda install rasterio
+
 
 FOR SAVE MODELS IN KERAS:
 	sudo apt-get install libhdf5
